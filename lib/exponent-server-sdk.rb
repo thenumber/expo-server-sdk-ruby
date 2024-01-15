@@ -37,6 +37,7 @@ module Exponent
   module Push
     class Client
       def initialize(**args)
+        @access_token = args[:access_token]
         @http_client = args[:http_client] || Typhoeus
         @error_builder = ErrorBuilder.new
         # future versions will deprecate this
@@ -104,6 +105,7 @@ module Exponent
           'Content-Type' => 'application/json',
           'Accept' => 'application/json'
         }
+        headers['Authorization'] = "Bearer #{@access_token}" if @access_token.present?
         headers
       end
     end
